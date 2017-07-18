@@ -26,4 +26,8 @@ public class AccessionNumber {
         this.number = number;
     }
 
+    public String getGroupCode() {
+        return String.format("%s%d", code, number.length());
+    }
+
 }
