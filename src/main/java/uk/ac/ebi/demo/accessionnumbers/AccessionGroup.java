@@ -13,12 +13,22 @@ public class AccessionGroup {
         accessionNumbers = new ArrayList<>();
     }
 
+    public AccessionGroup(AccessionNumber startingMember) {
+        this();
+        add(startingMember);
+    }
+
     public void add(AccessionNumber accessionNumber) {
         code = accessionNumber.getGroupCode();
+        accessionNumbers.add(accessionNumber);
     }
 
     public String getCode() {
         return code;
+    }
+
+    public int size() {
+        return accessionNumbers.size();
     }
 
 }
