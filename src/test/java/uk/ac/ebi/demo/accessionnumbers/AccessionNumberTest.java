@@ -3,6 +3,7 @@ package uk.ac.ebi.demo.accessionnumbers;
 import org.junit.Test;
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAcessionNumberPattern;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccessionNumberTest {
@@ -30,13 +31,17 @@ public class AccessionNumberTest {
 
     @Test
     public void testParseInvalidInput() {
-        //given:
-        String invalidPattern = "011EAB";
+        //expect:
+        asList("", "011EAB", "_CCD0001", "CC000159B").forEach(invalidInput -> {
+            doTestParseInvalidInput(invalidInput);
+        });
+    }
 
+    private void doTestParseInvalidInput(String invalidInput) {
         //when:
         boolean exceptionThrown = false;
         try {
-            AccessionNumber.parse(invalidPattern);
+            AccessionNumber.parse(invalidInput);
         } catch (InvalidAcessionNumberPattern exception) {
             exceptionThrown = true;
         }
