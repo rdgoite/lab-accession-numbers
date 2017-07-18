@@ -15,7 +15,10 @@ public class AccessionNumberTest {
         AccessionNumber accessionNumber = AccessionNumber.parse(validInput);
 
         //then:
-        assertThat(accessionNumber).isNotNull();
+        assertThat(accessionNumber)
+                .isNotNull()
+                .extracting("code", "number")
+                .containsExactly("ERR", "000111");
     }
 
 }
