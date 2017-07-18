@@ -1,5 +1,7 @@
 package uk.ac.ebi.demo.accessionnumbers;
 
+import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,13 @@ public class AccessionGroup {
     }
 
     public void add(AccessionNumber accessionNumber) {
-        code = accessionNumber.getGroupCode();
-        accessionNumbers.add(accessionNumber);
+        String candidateGroupCode = accessionNumber.getGroupCode();
+        if (accessionNumbers.isEmpty() || code.equals(candidateGroupCode)) {
+            code = candidateGroupCode;
+            accessionNumbers.add(accessionNumber);
+        } else {
+            throw new InvalidAccessionGroupMember(code, accessionNumber);
+        }
     }
 
     public String getCode() {

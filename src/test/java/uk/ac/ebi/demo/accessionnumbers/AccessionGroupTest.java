@@ -1,6 +1,7 @@
 package uk.ac.ebi.demo.accessionnumbers;
 
 import org.junit.Test;
+import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,6 +37,28 @@ public class AccessionGroupTest {
 
         //then:
         assertThat(group.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void testAddInvalidEntry() {
+        //given:
+        AccessionNumber xyz2010 = new AccessionNumber("XYZ", "2010");
+        AccessionGroup group = new AccessionGroup(xyz2010);
+        assertThat(group.getCode()).isEqualTo(xyz2010.getGroupCode());
+
+        //and:
+        AccessionNumber xyz20122 = new AccessionNumber("XYZ", "20122");
+
+        //when:
+        boolean exceptionThrown = false;
+        try {
+            group.add(xyz20122);
+        } catch (InvalidAccessionGroupMember e) {
+            exceptionThrown = true;
+        }
+
+        //then:
+        assertThat(exceptionThrown).isTrue();
     }
 
 }
