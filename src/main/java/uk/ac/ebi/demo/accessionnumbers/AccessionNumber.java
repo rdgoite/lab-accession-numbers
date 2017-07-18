@@ -11,10 +11,10 @@ public class AccessionNumber {
     //TODO add handling for invalid input
     //TODO add processing for character casing
     public static AccessionNumber parse(String input) {
-        Pattern pattern = Pattern.compile("^(\\p{Alpha}+)(\\p{Digit}+)$");
+        Pattern pattern = Pattern.compile("^(?<code>\\p{Alpha}+)(?<number>\\p{Digit}+)$");
         Matcher matcher = pattern.matcher(input);
         matcher.matches();
-        return new AccessionNumber(matcher.group(1), matcher.group(2));
+        return new AccessionNumber(matcher.group("code"), matcher.group("number"));
     }
 
     public AccessionNumber(String code, String number) {
