@@ -10,6 +10,8 @@ public class AccessionNumber {
     private final String code;
     private final String number;
 
+    private final String groupCode;
+
     //TODO add processing for character casing
     public static AccessionNumber parse(String input) {
         Pattern pattern = Pattern.compile("^(?<code>\\p{Alpha}+)(?<number>\\p{Digit}+)$");
@@ -24,10 +26,11 @@ public class AccessionNumber {
     public AccessionNumber(String code, String number) {
         this.code = code;
         this.number = number;
+        groupCode = String.format("%s%d", code, number.length());
     }
 
     public String getGroupCode() {
-        return String.format("%s%d", code, number.length());
+        return groupCode;
     }
 
 }
