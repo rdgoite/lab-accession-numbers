@@ -1,6 +1,7 @@
 package uk.ac.ebi.demo.accessionnumbers;
 
 import org.junit.Test;
+import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAcessionNumberPattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,6 +26,23 @@ public class AccessionNumberTest {
         assertThat(accessionNumber2)
                 .extracting("code", "number")
                 .containsExactly("A", "00001");
+    }
+
+    @Test
+    public void testParseInvalidInput() {
+        //given:
+        String invalidPattern = "011EAB";
+
+        //when:
+        boolean exceptionThrown = false;
+        try {
+            AccessionNumber.parse(invalidPattern);
+        } catch (InvalidAcessionNumberPattern exception) {
+            exceptionThrown = true;
+        }
+
+        //then:
+        assertThat(exceptionThrown).isTrue();
     }
 
 }
