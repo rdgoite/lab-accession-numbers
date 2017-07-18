@@ -23,7 +23,7 @@ public class AccessionGroup {
     public void add(AccessionNumber accessionNumber) {
         String candidateGroupCode = accessionNumber.getGroupCode();
         if (accessionNumbers.isEmpty() || code.equals(candidateGroupCode)) {
-            code = candidateGroupCode;
+            if (code == null) code = candidateGroupCode;
             accessionNumbers.add(accessionNumber);
         } else {
             throw new InvalidAccessionGroupMember(code, accessionNumber);
