@@ -72,11 +72,19 @@ public class ConsecutiveAccessionGroupTest {
         AccessionNumber maxAcceptable = new AccessionNumber(cmdCode, "005014");
         AccessionNumber maxUnacceptable = new AccessionNumber(cmdCode, "005019");
 
+        //and:
+        AccessionNumber invalidCode = new AccessionNumber("CMG", "005010");
+        AccessionNumber nonMatchingNumber = new AccessionNumber(cmdCode, "05014");
+
         //expect:
         assertThat(group.accepts(minAcceptable)).isTrue();
         assertThat(group.accepts(minUnacceptable)).isFalse();
         assertThat(group.accepts(maxAcceptable)).isTrue();
         assertThat(group.accepts(maxUnacceptable)).isFalse();
+
+        //and:
+        assertThat(group.accepts(invalidCode)).isFalse();
+        assertThat(group.accepts(nonMatchingNumber)).isFalse();
     }
 
     private ConsecutiveAccessionGroup createTestConsecutiveAccessionGroup(String code) {

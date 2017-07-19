@@ -37,7 +37,7 @@ public class ConsecutiveAccessionGroup extends AccessionGroup {
 
     public boolean accepts(AccessionNumber accessionNumber) {
         int number = accessionNumber.getNumberAsInteger();
-        return isAcceptable(number);
+        return code.equals(accessionNumber.getGroupCode()) && isAcceptable(number);
     }
 
     private boolean isAcceptable(int number) {
