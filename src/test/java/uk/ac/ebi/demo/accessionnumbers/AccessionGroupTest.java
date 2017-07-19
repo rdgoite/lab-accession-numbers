@@ -3,7 +3,6 @@ package uk.ac.ebi.demo.accessionnumbers;
 import org.junit.Test;
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
