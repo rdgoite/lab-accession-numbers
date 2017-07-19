@@ -2,9 +2,7 @@ package uk.ac.ebi.demo.accessionnumbers;
 
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class AccessionGroup {
 
@@ -41,7 +39,11 @@ public class AccessionGroup {
     }
 
     public List<AccessionGroup> collapseConsecutive() {
-        return Arrays.asList(new AccessionGroup());
+        return Arrays.asList(this);
+    }
+
+    public Collection<AccessionNumber> getMembers() {
+        return Collections.unmodifiableCollection(accessionNumbers);
     }
 
 }
