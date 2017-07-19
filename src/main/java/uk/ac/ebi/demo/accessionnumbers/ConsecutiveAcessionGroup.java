@@ -20,7 +20,7 @@ public class ConsecutiveAcessionGroup extends AccessionGroup {
             min = newNumber;
             max = newNumber;
         } else {
-            if (newNumber == min - 1 || newNumber == max + 1) {
+            if (isAcceptable(newNumber)) {
                 doAdd(accessionNumber);
                 if (newNumber < min) min = newNumber;
                 else if (newNumber > max) max = newNumber;
@@ -33,6 +33,10 @@ public class ConsecutiveAcessionGroup extends AccessionGroup {
 
     public boolean accepts(AccessionNumber accessionNumber) {
         int number = accessionNumber.getNumberAsInteger();
+        return isAcceptable(number);
+    }
+
+    private boolean isAcceptable(int number) {
         return number == min - 1 || number == max + 1;
     }
 
