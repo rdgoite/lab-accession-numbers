@@ -3,7 +3,10 @@ package uk.ac.ebi.demo.accessionnumbers;
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+//TODO consider duplicate members (uniqueness requirement)
 public class AccessionGroup {
 
     private final List<AccessionNumber> accessionNumbers;
@@ -39,7 +42,23 @@ public class AccessionGroup {
     }
 
     public List<AccessionGroup> collapseConsecutive() {
-        return Arrays.asList(this);
+        SortedMap<Integer, AccessionNumber> map = new TreeMap<>(accessionNumbers.stream()
+                .collect(Collectors.toMap(AccessionNumber::getNumberAsInteger,
+                        Function.identity())));
+        List<AccessionGroup> consecutiveGroups = new ArrayList<>();
+        int lastNumber = 0;
+        AccessionGroup currentGroup = null;
+        for (Map.Entry<Integer, AccessionNumber> entry : map.entrySet()) {
+            AccessionNumber value = entry.getValue();
+            if (entry.getKey() == lastNumber + 1) {
+                currentGroup.add(value);
+            } else {
+                currentGroup = new AccessionGroup(value);
+                consecutiveGroups.add(currentGroup);
+            }
+            lastNumber = value.getNumberAsInteger();
+        }
+        return consecutiveGroups;
     }
 
     public Collection<AccessionNumber> getMembers() {

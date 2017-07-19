@@ -3,6 +3,7 @@ package uk.ac.ebi.demo.accessionnumbers;
 import org.junit.Test;
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,9 +90,46 @@ public class AccessionGroupTest {
 
         //and:
         List<Integer> mainGroupNumbers = mainGroup.getMembers().stream()
-                .map(member -> member.getNumberAsInteger())
+                .map(AccessionNumber::getNumberAsInteger)
                 .collect(Collectors.toList());
         assertThat(mainGroupNumbers).containsExactlyInAnyOrder(20010, 20011, 20012);
+    }
+
+    @Test
+    public void testCollapseConsecutiveMultipleGroups() {
+        //given:
+        String mvcCode = "MVC";
+        AccessionNumber mvc001101 = new AccessionNumber(mvcCode, "001101");
+        AccessionGroup testGroup = new AccessionGroup(mvc001101);
+
+        //and:
+        AccessionNumber mvc002101 = new AccessionNumber(mvcCode, "002101");
+        AccessionNumber mvc002100 = new AccessionNumber(mvcCode, "002100");
+        testGroup.add(mvc002101).add(mvc002100);
+
+        //when:
+        List<AccessionGroup> consecutiveGroups = testGroup.collapseConsecutive();
+
+        //then:
+        assertThat(consecutiveGroups).hasSize(2);
+
+        //and:
+        AccessionGroup singleMemberGroup = consecutiveGroups.stream()
+                .filter(group -> group.size() == 1)
+                .findFirst().get();
+        List<String> singleMemberGroupNumbers = singleMemberGroup.getMembers().stream()
+                .map(AccessionNumber::getNumber)
+                .collect(Collectors.toList());
+        assertThat(singleMemberGroupNumbers).containsExactly("001101");
+
+        //and:
+        AccessionGroup twoMemberGroup = consecutiveGroups.stream()
+                .filter(group -> group.size() == 2)
+                .findFirst().get();
+        List<String> twoMemberGroupNumbers = twoMemberGroup.getMembers().stream()
+                .map(AccessionNumber::getNumber)
+                .collect(Collectors.toList());
+        assertThat(twoMemberGroupNumbers).containsExactly("002100", "002101");
     }
 
 }

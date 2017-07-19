@@ -30,6 +30,14 @@ public class AccessionNumber {
         groupCode = String.format("%s%d", code, number.length());
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
     public String getGroupCode() {
         return groupCode;
     }
