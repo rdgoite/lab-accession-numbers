@@ -22,7 +22,7 @@ public class ConsecutiveAcessionGroup extends AccessionGroup {
         } else {
             if (newNumber == min - 1 || newNumber == max + 1) {
                 doAdd(accessionNumber);
-                if (newNumber > min) min = newNumber;
+                if (newNumber < min) min = newNumber;
                 else if (newNumber > max) max = newNumber;
             } else {
                 throw new NonConsecutiveAccessionNumber();
