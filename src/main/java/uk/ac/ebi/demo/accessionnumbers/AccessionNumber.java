@@ -10,6 +10,8 @@ public class AccessionNumber {
     private final String code;
     private final String number;
 
+    private final String groupCode;
+
     //TODO add processing for character casing
     public static AccessionNumber parse(String input) {
         Pattern pattern = Pattern.compile("^(?<code>\\p{Alpha}+)(?<number>\\p{Digit}+)$");
@@ -21,9 +23,27 @@ public class AccessionNumber {
         }
     }
 
+    //TODO add validation for code and number arguments?
     public AccessionNumber(String code, String number) {
         this.code = code;
         this.number = number;
+        groupCode = String.format("%s%d", code, number.length());
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public int getNumberAsInteger() {
+        return Integer.parseInt(number);
     }
 
 }

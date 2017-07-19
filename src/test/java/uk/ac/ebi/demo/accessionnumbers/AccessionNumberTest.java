@@ -50,4 +50,30 @@ public class AccessionNumberTest {
         assertThat(exceptionThrown).isTrue();
     }
 
+    @Test
+    public void testGetGroupCode() {
+        //given:
+        AccessionNumber err200010 = new AccessionNumber("ERR", "200010");
+        AccessionNumber a00001 = new AccessionNumber("A", "00001");
+        AccessionNumber drm01 = new AccessionNumber("DRM", "01");
+
+        //expect:
+        assertThat(err200010.getGroupCode()).isEqualTo("ERR6");
+        assertThat(a00001.getGroupCode()).isEqualTo("A5");
+        assertThat(drm01.getGroupCode()).isEqualTo("DRM2");
+    }
+
+    @Test
+    public void testGetNumberAsInteger() {
+        //given:
+        AccessionNumber ddr20100 = new AccessionNumber("DDR", "20100");
+        AccessionNumber ab000901 = new AccessionNumber("AB", "000901");
+        AccessionNumber xyz0000 = new AccessionNumber("XYZ", "0000");
+
+        //expect:
+        assertThat(ddr20100.getNumberAsInteger()).isEqualTo(20100);
+        assertThat(ab000901.getNumberAsInteger()).isEqualTo(901);
+        assertThat(xyz0000.getNumberAsInteger()).isEqualTo(0);
+    }
+
 }
