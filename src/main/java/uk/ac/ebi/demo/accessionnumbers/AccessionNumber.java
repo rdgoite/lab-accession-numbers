@@ -35,7 +35,7 @@ public class AccessionNumber {
     }
 
     public int getNumberAsInteger() {
-        return 20100;
+        return Integer.parseInt(number);
     }
 
 }
