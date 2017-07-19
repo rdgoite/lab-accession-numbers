@@ -5,6 +5,8 @@ import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 import java.util.*;
 
 //TODO consider duplicate members (uniqueness requirement)
+// - no need to check because of shift to map internal structure
+// - however, exceptions can be raised if checks are necessary?
 public class AccessionGroup {
 
     protected final SortedMap<Integer, AccessionNumber> accessionNumbers;
