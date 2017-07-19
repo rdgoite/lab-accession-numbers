@@ -7,8 +7,12 @@ public class ConsecutiveAcessionGroup extends AccessionGroup {
     private int min = 0;
     private int max = 0;
 
-    public ConsecutiveAcessionGroup(AccessionNumber initialMember) {
+    public ConsecutiveAcessionGroup() {
         super();
+    }
+
+    public ConsecutiveAcessionGroup(AccessionNumber initialMember) {
+        this();
         add(initialMember);
     }
 

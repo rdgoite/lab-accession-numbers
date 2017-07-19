@@ -45,22 +45,20 @@ public class AccessionGroup {
         return accessionNumbers.size();
     }
 
-    public List<AccessionGroup> collapseConsecutive() {
+    public List<ConsecutiveAcessionGroup> collapseConsecutive() {
         SortedMap<Integer, AccessionNumber> map = new TreeMap<>(accessionNumbers.stream()
                 .collect(Collectors.toMap(AccessionNumber::getNumberAsInteger,
                         Function.identity())));
-        List<AccessionGroup> consecutiveGroups = new ArrayList<>();
-        int lastNumber = 0;
-        AccessionGroup currentGroup = null;
+        List<ConsecutiveAcessionGroup> consecutiveGroups = new ArrayList<>();
+        ConsecutiveAcessionGroup currentGroup = new ConsecutiveAcessionGroup();
         for (Map.Entry<Integer, AccessionNumber> entry : map.entrySet()) {
             AccessionNumber value = entry.getValue();
-            if (entry.getKey() == lastNumber + 1) {
+            if (currentGroup.accepts(value)) {
                 currentGroup.add(value);
             } else {
-                currentGroup = new AccessionGroup(value);
+                currentGroup = new ConsecutiveAcessionGroup(value);
                 consecutiveGroups.add(currentGroup);
             }
-            lastNumber = value.getNumberAsInteger();
         }
         return consecutiveGroups;
     }
