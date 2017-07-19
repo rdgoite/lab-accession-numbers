@@ -63,4 +63,13 @@ public class AccessionNumberTest {
         assertThat(drm01.getGroupCode()).isEqualTo("DRM2");
     }
 
+    @Test
+    public void testGetNumberAsInteger() {
+        //given:
+        AccessionNumber ddr20100 = new AccessionNumber("DDR", "20100");
+
+        //expect:
+        assertThat(ddr20100.getNumberAsInteger()).isEqualTo(20100);
+    }
+
 }

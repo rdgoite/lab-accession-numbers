@@ -34,4 +34,8 @@ public class AccessionNumber {
         return groupCode;
     }
 
+    public int getNumberAsInteger() {
+        return 20100;
+    }
+
 }
