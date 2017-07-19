@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 //TODO consider duplicate members (uniqueness requirement)
 public class AccessionGroup {
 
-    protected final List<AccessionNumber> accessionNumbers;
+    protected final SortedMap<Integer, AccessionNumber> accessionNumbers;
 
     protected String code;
 
     public AccessionGroup() {
-        accessionNumbers = new ArrayList<>();
+        accessionNumbers = new TreeMap<>();
     }
 
     public AccessionGroup(AccessionNumber initialMember) {
@@ -31,7 +31,7 @@ public class AccessionGroup {
         String candidateGroupCode = accessionNumber.getGroupCode();
         if (accessionNumbers.isEmpty() || code.equals(candidateGroupCode)) {
             if (code == null) code = candidateGroupCode;
-            accessionNumbers.add(accessionNumber);
+            accessionNumbers.put(accessionNumber.getNumberAsInteger(), accessionNumber);
         } else {
             throw new InvalidAccessionGroupMember(code, accessionNumber);
         }
@@ -46,12 +46,9 @@ public class AccessionGroup {
     }
 
     public List<ConsecutiveAcessionGroup> collapseConsecutive() {
-        SortedMap<Integer, AccessionNumber> map = new TreeMap<>(accessionNumbers.stream()
-                .collect(Collectors.toMap(AccessionNumber::getNumberAsInteger,
-                        Function.identity())));
         List<ConsecutiveAcessionGroup> consecutiveGroups = new ArrayList<>();
         ConsecutiveAcessionGroup currentGroup = new ConsecutiveAcessionGroup();
-        for (Map.Entry<Integer, AccessionNumber> entry : map.entrySet()) {
+        for (Map.Entry<Integer, AccessionNumber> entry : accessionNumbers.entrySet()) {
             AccessionNumber value = entry.getValue();
             if (currentGroup.accepts(value)) {
                 currentGroup.add(value);
@@ -64,7 +61,7 @@ public class AccessionGroup {
     }
 
     public Collection<AccessionNumber> getMembers() {
-        return Collections.unmodifiableCollection(accessionNumbers);
+        return Collections.unmodifiableCollection(accessionNumbers.values());
     }
 
 }
