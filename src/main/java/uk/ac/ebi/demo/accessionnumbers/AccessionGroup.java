@@ -9,25 +9,29 @@ import java.util.stream.Collectors;
 //TODO consider duplicate members (uniqueness requirement)
 public class AccessionGroup {
 
-    private final List<AccessionNumber> accessionNumbers;
+    protected final List<AccessionNumber> accessionNumbers;
 
-    private String code;
+    protected String code;
 
     public AccessionGroup() {
         accessionNumbers = new ArrayList<>();
     }
 
-    public AccessionGroup(AccessionNumber startingMember) {
+    public AccessionGroup(AccessionNumber initialMember) {
         this();
-        add(startingMember);
+        doAdd(initialMember);
     }
 
     public AccessionGroup add(AccessionNumber accessionNumber) {
+        doAdd(accessionNumber);
+        return this;
+    }
+
+    protected void doAdd(AccessionNumber accessionNumber) {
         String candidateGroupCode = accessionNumber.getGroupCode();
         if (accessionNumbers.isEmpty() || code.equals(candidateGroupCode)) {
             if (code == null) code = candidateGroupCode;
             accessionNumbers.add(accessionNumber);
-            return this;
         } else {
             throw new InvalidAccessionGroupMember(code, accessionNumber);
         }
