@@ -77,7 +77,7 @@ public class AccessionGroupTest {
         group.add(ac0020011).add(ac0020012);
 
         //when:
-        List<ConsecutiveAcessionGroup> consecutiveGroups = group.collapseConsecutive();
+        List<ConsecutiveAccessionGroup> consecutiveGroups = group.collapseConsecutive();
 
         //then:
         assertThat(consecutiveGroups).hasSize(1);
@@ -107,7 +107,7 @@ public class AccessionGroupTest {
         testGroup.add(mvc002101).add(mvc002100);
 
         //when:
-        List<ConsecutiveAcessionGroup> consecutiveGroups = testGroup.collapseConsecutive();
+        List<ConsecutiveAccessionGroup> consecutiveGroups = testGroup.collapseConsecutive();
 
         //then:
         assertThat(consecutiveGroups).hasSize(2);

@@ -3,8 +3,6 @@ package uk.ac.ebi.demo.accessionnumbers;
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 //TODO consider duplicate members (uniqueness requirement)
 public class AccessionGroup {
@@ -45,15 +43,15 @@ public class AccessionGroup {
         return accessionNumbers.size();
     }
 
-    public List<ConsecutiveAcessionGroup> collapseConsecutive() {
-        List<ConsecutiveAcessionGroup> consecutiveGroups = new ArrayList<>();
-        ConsecutiveAcessionGroup currentGroup = new ConsecutiveAcessionGroup();
+    public List<ConsecutiveAccessionGroup> collapseConsecutive() {
+        List<ConsecutiveAccessionGroup> consecutiveGroups = new ArrayList<>();
+        ConsecutiveAccessionGroup currentGroup = new ConsecutiveAccessionGroup();
         for (Map.Entry<Integer, AccessionNumber> entry : accessionNumbers.entrySet()) {
             AccessionNumber value = entry.getValue();
             if (currentGroup.accepts(value)) {
                 currentGroup.add(value);
             } else {
-                currentGroup = new ConsecutiveAcessionGroup(value);
+                currentGroup = new ConsecutiveAccessionGroup(value);
                 consecutiveGroups.add(currentGroup);
             }
         }

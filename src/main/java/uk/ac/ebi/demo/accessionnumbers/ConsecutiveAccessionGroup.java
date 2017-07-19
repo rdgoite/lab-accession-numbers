@@ -2,22 +2,22 @@ package uk.ac.ebi.demo.accessionnumbers;
 
 import uk.ac.ebi.demo.accessionnumbers.exception.NonConsecutiveAccessionNumber;
 
-public class ConsecutiveAcessionGroup extends AccessionGroup {
+public class ConsecutiveAccessionGroup extends AccessionGroup {
 
     private int min = 0;
     private int max = 0;
 
-    public ConsecutiveAcessionGroup() {
+    public ConsecutiveAccessionGroup() {
         super();
     }
 
-    public ConsecutiveAcessionGroup(AccessionNumber initialMember) {
+    public ConsecutiveAccessionGroup(AccessionNumber initialMember) {
         this();
         add(initialMember);
     }
 
     @Override
-    public ConsecutiveAcessionGroup add(AccessionNumber accessionNumber) {
+    public ConsecutiveAccessionGroup add(AccessionNumber accessionNumber) {
         int newNumber = accessionNumber.getNumberAsInteger();
         if (accessionNumbers.isEmpty()) {
             doAdd(accessionNumber);

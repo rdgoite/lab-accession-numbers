@@ -5,7 +5,7 @@ import uk.ac.ebi.demo.accessionnumbers.exception.NonConsecutiveAccessionNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConsecutiveAcessionGroupTest {
+public class ConsecutiveAccessionGroupTest {
 
     @Test
     public void testAddBeforeMin() {
@@ -64,7 +64,7 @@ public class ConsecutiveAcessionGroupTest {
     public void testAccepts() {
         //given:
         String cmdCode = "CMD";
-        ConsecutiveAcessionGroup group = createTestConsecutiveAccessionGroup(cmdCode);
+        ConsecutiveAccessionGroup group = createTestConsecutiveAccessionGroup(cmdCode);
 
         //and:
         AccessionNumber minAcceptable = new AccessionNumber(cmdCode, "005010");
@@ -79,9 +79,9 @@ public class ConsecutiveAcessionGroupTest {
         assertThat(group.accepts(maxUnacceptable)).isFalse();
     }
 
-    private ConsecutiveAcessionGroup createTestConsecutiveAccessionGroup(String code) {
+    private ConsecutiveAccessionGroup createTestConsecutiveAccessionGroup(String code) {
         AccessionNumber ac005012 = new AccessionNumber(code, "005012");
-        ConsecutiveAcessionGroup group = new ConsecutiveAcessionGroup(ac005012);
+        ConsecutiveAccessionGroup group = new ConsecutiveAccessionGroup(ac005012);
 
         AccessionNumber ac005011 = new AccessionNumber(code, "005011");
         AccessionNumber ac00513 = new AccessionNumber(code, "005013");
