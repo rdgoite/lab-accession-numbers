@@ -31,4 +31,9 @@ public class ConsecutiveAcessionGroup extends AccessionGroup {
         return this;
     }
 
+    public boolean accepts(AccessionNumber accessionNumber) {
+        int number = accessionNumber.getNumberAsInteger();
+        return number == min - 1 || number == max + 1;
+    }
+
 }

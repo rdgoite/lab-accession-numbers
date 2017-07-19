@@ -60,6 +60,25 @@ public class ConsecutiveAcessionGroupTest {
         assertThat(exceptionThrown).isTrue();
     }
 
+    @Test
+    public void testAccepts() {
+        //given:
+        String cmdCode = "CMD";
+        ConsecutiveAcessionGroup group = createTestConsecutiveAccessionGroup(cmdCode);
+
+        //and:
+        AccessionNumber minAcceptable = new AccessionNumber(cmdCode, "005010");
+        AccessionNumber minUnacceptable = new AccessionNumber(cmdCode, "005009");
+        AccessionNumber maxAcceptable = new AccessionNumber(cmdCode, "005014");
+        AccessionNumber maxUnacceptable = new AccessionNumber(cmdCode, "005019");
+
+        //expect:
+        assertThat(group.accepts(minAcceptable)).isTrue();
+        assertThat(group.accepts(minUnacceptable)).isFalse();
+        assertThat(group.accepts(maxAcceptable)).isTrue();
+        assertThat(group.accepts(maxUnacceptable)).isFalse();
+    }
+
     private ConsecutiveAcessionGroup createTestConsecutiveAccessionGroup(String code) {
         AccessionNumber ac005012 = new AccessionNumber(code, "005012");
         ConsecutiveAcessionGroup group = new ConsecutiveAcessionGroup(ac005012);
