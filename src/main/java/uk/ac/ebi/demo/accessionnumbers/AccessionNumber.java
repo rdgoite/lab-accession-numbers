@@ -23,6 +23,7 @@ public class AccessionNumber {
         }
     }
 
+    //TODO add validation for code and number arguments?
     public AccessionNumber(String code, String number) {
         this.code = code;
         this.number = number;

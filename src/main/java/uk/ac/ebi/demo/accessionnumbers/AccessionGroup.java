@@ -3,6 +3,7 @@ package uk.ac.ebi.demo.accessionnumbers;
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AccessionGroup {
@@ -20,11 +21,12 @@ public class AccessionGroup {
         add(startingMember);
     }
 
-    public void add(AccessionNumber accessionNumber) {
+    public AccessionGroup add(AccessionNumber accessionNumber) {
         String candidateGroupCode = accessionNumber.getGroupCode();
         if (accessionNumbers.isEmpty() || code.equals(candidateGroupCode)) {
             if (code == null) code = candidateGroupCode;
             accessionNumbers.add(accessionNumber);
+            return this;
         } else {
             throw new InvalidAccessionGroupMember(code, accessionNumber);
         }
@@ -36,6 +38,10 @@ public class AccessionGroup {
 
     public int size() {
         return accessionNumbers.size();
+    }
+
+    public List<AccessionGroup> collapseConsecutive() {
+        return Arrays.asList(new AccessionGroup());
     }
 
 }

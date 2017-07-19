@@ -3,6 +3,8 @@ package uk.ac.ebi.demo.accessionnumbers;
 import org.junit.Test;
 import uk.ac.ebi.demo.accessionnumbers.exception.InvalidAccessionGroupMember;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccessionGroupTest {
@@ -59,6 +61,25 @@ public class AccessionGroupTest {
 
         //then:
         assertThat(exceptionThrown).isTrue();
+    }
+
+    @Test
+    public void testCollapseConsecutive() {
+        //given:
+        String acCode = "AC";
+        AccessionNumber ac20010 = new AccessionNumber(acCode, "0020010");
+        AccessionNumber ac20011 = new AccessionNumber(acCode, "0020011");
+        AccessionNumber ac20012 = new AccessionNumber(acCode, "0020012");
+
+        //and:
+        AccessionGroup group = new AccessionGroup(ac20010);
+        group.add(ac20011).add(ac20012);
+
+        //when:
+        List<AccessionGroup> consecutiveGroups = group.collapseConsecutive();
+
+        //then:
+        assertThat(consecutiveGroups).hasSize(1);
     }
 
 }
