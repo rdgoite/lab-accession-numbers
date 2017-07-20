@@ -71,6 +71,54 @@ public class SorterTest {
                 .containsExactly(tuple("SRR", "002011"));
     }
 
+    @Test
+    public void testSortCorrectOrderForSimilarGroups() {
+        //given:
+        List<AccessionNumber> accessionNumbers = process("A00000", "A0001");
+
+        //when:
+        List<ConsecutiveAccessionGroup> result = sorter.sort(accessionNumbers);
+
+        //then:
+        assertThat(result).hasSize(2);
+
+        //and:
+        ConsecutiveAccessionGroup firstElement = result.get(0);
+        assertThat(firstElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("A", "00000"));
+
+        //and:
+        ConsecutiveAccessionGroup secondElement = result.get(1);
+        assertThat(secondElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("A", "0001"));
+    }
+
+    @Test
+    public void testSortCorrectOrderBasedOnLength() {
+        //given:
+        List<AccessionNumber> accessionNumbers = process("DDR0001", "DDR01");
+
+        //when:
+        List<ConsecutiveAccessionGroup> result = sorter.sort(accessionNumbers);
+
+        //then:
+        assertThat(result).hasSize(2);
+
+        //and:
+        ConsecutiveAccessionGroup firstElement = result.get(0);
+        assertThat(firstElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("DDR", "01"));
+
+        //and:
+        ConsecutiveAccessionGroup secondElement = result.get(1);
+        assertThat(secondElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("DDR", "0001"));
+    }
+
     private List<AccessionNumber> process(String... inputs) {
         return Arrays.stream(inputs)
                 .map(input -> AccessionNumber.parse(input))

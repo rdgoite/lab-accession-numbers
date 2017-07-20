@@ -10,6 +10,15 @@ public class Sorter {
         groupMap.values().forEach(group -> {
             result.addAll(group.collapseConsecutive());
         });
+        result.sort((group1, goup2) -> {
+            int accessionCodeComparison = group1.getAccessionCode().compareTo(
+                    goup2.getAccessionCode());
+            if (accessionCodeComparison == 0) {
+                return group1.getMin().compareTo(goup2.getMin());
+            } else {
+                return accessionCodeComparison;
+            }
+        });
         return result;
     }
 

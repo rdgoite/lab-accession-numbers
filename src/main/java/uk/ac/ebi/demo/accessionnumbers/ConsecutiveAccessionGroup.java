@@ -36,6 +36,14 @@ public class ConsecutiveAccessionGroup extends AccessionGroup {
         return this;
     }
 
+    public Integer getMin() {
+        return min;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
     public boolean accepts(AccessionNumber accessionNumber) {
         int number = accessionNumber.getNumberAsInteger();
         return code.equals(accessionNumber.getGroupCode()) && isAcceptable(number);
