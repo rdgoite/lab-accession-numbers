@@ -7,14 +7,20 @@ import java.util.regex.Pattern;
 
 public class AccessionNumber {
 
+    public static final Pattern CODE_PATTERN = Pattern.compile("^\\s*\\p{Alpha}+\\s*$");
+    public static final Pattern NUMBER_PATTERN = Pattern.compile("\\p{Digit}+");
+
+    public static final Pattern PARSE_PATTERN = Pattern.compile("^(?<code>\\p{Alpha}+)" +
+            "(?<number>\\p{Digit}+)$");
+
     private final String code;
     private final String number;
 
     private final String groupCode;
 
+
     public static AccessionNumber parse(String input) {
-        Pattern pattern = Pattern.compile("^(?<code>\\p{Alpha}+)(?<number>\\p{Digit}+)$");
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = PARSE_PATTERN.matcher(input);
         if (matcher.matches()) {
             return new AccessionNumber(matcher.group("code"), matcher.group("number"));
         } else {
@@ -22,11 +28,8 @@ public class AccessionNumber {
         }
     }
 
-    //TODO add validation for code and number arguments?
     public AccessionNumber(String code, String number) {
-        Pattern codePattern = Pattern.compile("\\p{Alpha}+");
-        Pattern numberPattern = Pattern.compile("\\p{Digit}+");
-        if (!codePattern.matcher(code).matches() || !numberPattern.matcher(number).matches()) {
+        if (!CODE_PATTERN.matcher(code).matches() || !NUMBER_PATTERN.matcher(number).matches()) {
             throw new InvalidAcessionNumberPattern();
         }
         this.code = code.trim().toUpperCase();
