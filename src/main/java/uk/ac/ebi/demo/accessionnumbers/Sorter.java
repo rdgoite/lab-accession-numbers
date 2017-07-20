@@ -5,7 +5,16 @@ import java.util.*;
 public class Sorter {
 
     public List<ConsecutiveAccessionGroup> sort(List<AccessionNumber> accesionNumbers) {
-        final SortedMap<String, AccessionGroup> groupMap = new TreeMap<>();
+        final SortedMap<String, AccessionGroup> groupMap = group(accesionNumbers);
+        final List<ConsecutiveAccessionGroup> result = new ArrayList<>();
+        groupMap.values().forEach(group -> {
+            result.addAll(group.collapseConsecutive());
+        });
+        return result;
+    }
+
+    private SortedMap<String, AccessionGroup> group(List<AccessionNumber> accesionNumbers) {
+        SortedMap<String, AccessionGroup> groupMap = new TreeMap<>();
         accesionNumbers.forEach(accessionNumber -> {
             String groupCode = accessionNumber.getGroupCode();
             if (groupMap.containsKey(groupCode)) {
@@ -14,11 +23,7 @@ public class Sorter {
                 groupMap.put(groupCode, new AccessionGroup(accessionNumber));
             }
         });
-        final List<ConsecutiveAccessionGroup> result = new ArrayList<>();
-        groupMap.values().forEach(group -> {
-            result.addAll(group.collapseConsecutive());
-        });
-        return result;
+        return groupMap;
     }
 
 }
