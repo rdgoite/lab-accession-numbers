@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.ac.ebi.demo.accessionnumbers.AccessionNumber;
+import uk.ac.ebi.demo.accessionnumbers.ConsecutiveAccessionGroup;
 import uk.ac.ebi.demo.accessionnumbers.Sorter;
 
 import java.util.Arrays;
@@ -20,12 +21,16 @@ public class SortingController {
     private Sorter sorter;
 
     @PostMapping
-    public void sort(@RequestBody String request) {
+    public String sort(@RequestBody String request) {
         String[] data = request.split(",");
+        //TODO add check of emply list
         List<AccessionNumber> inputs = Arrays.stream(data)
                 .map(AccessionNumber::parse)
                 .collect(Collectors.toList());
-        sorter.sort(inputs);
+        List<ConsecutiveAccessionGroup> result = sorter.sort(inputs);
+        return result.stream()
+                .map(ConsecutiveAccessionGroup::toString)
+                .collect(Collectors.joining(", "));
     }
 
 }
