@@ -24,12 +24,15 @@ public class CliApplication {
                     .map(AccessionNumber::parse)
                     .collect(Collectors.toList());
 
-            Sorter sorter = new Sorter();
-            //TODO check if list is empty
-            List<String> results = sorter.sort(accessionNumbers).stream()
-                    .map(ConsecutiveAccessionGroup::toString)
-                    .collect(Collectors.toList());
-            System.out.println(String.join(", ", results));
+            if (!accessionNumbers.isEmpty()) {
+                Sorter sorter = new Sorter();
+                List<String> results = sorter.sort(accessionNumbers).stream()
+                        .map(ConsecutiveAccessionGroup::toString)
+                        .collect(Collectors.toList());
+                System.out.println(String.join(", ", results));
+            } else {
+                System.out.println("No accession numbers provided.");
+            }
         } catch (Exception e) {
             String errorMessage = "An error occurred while processing the input: %s";
             errorMessage = String.format(errorMessage, e.getMessage());
