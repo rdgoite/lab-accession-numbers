@@ -1,14 +1,13 @@
 package uk.ac.ebi.demo.accessionnumbers.cli;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import uk.ac.ebi.demo.accessionnumbers.cli.exception.NonExistentFile;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -20,7 +19,7 @@ public class InputFileProcessorTest {
     public TemporaryFolder directory = new TemporaryFolder();
 
     @Test
-    public void testRun() throws Exception {
+    public void testProcess() throws Exception {
         //given:
         File inputFile = directory.newFile("accession-numbers.dat");
 
@@ -43,6 +42,23 @@ public class InputFileProcessorTest {
         ArrayList<String> expectedInputs = new ArrayList<>(dataLine1);
         expectedInputs.addAll(dataLine2);
         assertThat(inputs).containsExactlyElementsOf(expectedInputs);
+    }
+
+    @Test
+    public void testProcessNonExistentFile() {
+        //given:
+        InputFileProcessor inputFileProcessor = new InputFileProcessor();
+
+        //when:
+        boolean exceptionThrown = false;
+        try {
+            inputFileProcessor.process("non-existent.dat");
+        } catch (NonExistentFile exception) {
+            exceptionThrown = true;
+        }
+
+        //then:
+        assertThat(exceptionThrown).isTrue();
     }
 
 }
