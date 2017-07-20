@@ -79,7 +79,7 @@ public class SortingControllerTest {
 
         //and:
         assertThat(response.getContentType()).contains(MediaType.TEXT_PLAIN_VALUE);
-        String expectedContent = "A00000, ERR000112-ERR000113, SRR211001";
+        String expectedContent = "A00000, ERR000112-ERR000113, SRR211001\n";
         assertThat(response.getContentAsString()).isEqualTo(expectedContent);
     }
 

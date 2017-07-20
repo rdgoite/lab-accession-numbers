@@ -30,7 +30,7 @@ public class SortingController {
         List<ConsecutiveAccessionGroup> result = sorter.sort(inputs);
         return result.stream()
                 .map(ConsecutiveAccessionGroup::toString)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(", ")).concat("\n");
     }
 
 }
