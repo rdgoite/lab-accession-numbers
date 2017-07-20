@@ -87,6 +87,22 @@ public class ConsecutiveAccessionGroupTest {
         assertThat(group.accepts(nonMatchingNumber)).isFalse();
     }
 
+    @Test
+    public void testToString() {
+        //given:
+        ConsecutiveAccessionGroup emptyGroup = new ConsecutiveAccessionGroup();
+        ConsecutiveAccessionGroup singleMemberGroup = new ConsecutiveAccessionGroup(new
+                AccessionNumber("SRR", "2900101"));
+
+        //and:
+        ConsecutiveAccessionGroup multipleMemberGroup = createTestConsecutiveAccessionGroup("ABC");
+
+        //expect:
+        assertThat(emptyGroup.toString()).isEqualTo("[]");
+        assertThat(singleMemberGroup.toString()).isEqualTo("SRR2900101");
+        assertThat(multipleMemberGroup.toString()).isEqualTo("ABC005011-ABC005013");
+    }
+
     private ConsecutiveAccessionGroup createTestConsecutiveAccessionGroup(String code) {
         AccessionNumber ac005012 = new AccessionNumber(code, "005012");
         ConsecutiveAccessionGroup group = new ConsecutiveAccessionGroup(ac005012);

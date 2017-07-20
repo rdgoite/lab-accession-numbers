@@ -2,6 +2,9 @@ package uk.ac.ebi.demo.accessionnumbers;
 
 import uk.ac.ebi.demo.accessionnumbers.exception.NonConsecutiveAccessionNumber;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //TODO composition over inheritance?
 public class ConsecutiveAccessionGroup extends AccessionGroup {
 
@@ -53,4 +56,20 @@ public class ConsecutiveAccessionGroup extends AccessionGroup {
         return number == min - 1 || number == max + 1;
     }
 
+    @Override
+    public String toString() {
+        String text = "[]";
+        int size = accessionNumbers.size();
+        if (size > 0) {
+            Integer firstKey = accessionNumbers.firstKey();
+            AccessionNumber firstMember = accessionNumbers.get(firstKey);
+            text = firstMember.toString();
+            if (size > 1)  {
+                Integer lastKey = accessionNumbers.lastKey();
+                AccessionNumber lastMember = accessionNumbers.get(lastKey);
+                text = String.format("%s-%s", text, lastMember.toString());
+            }
+        }
+        return text;
+    }
 }
