@@ -88,10 +88,10 @@ public class AccessionGroupTest {
         assertThat(mainGroup.getMembers()).hasSize(3);
 
         //and:
-        List<Integer> mainGroupNumbers = mainGroup.getMembers().stream()
-                .map(AccessionNumber::getNumberAsInteger)
+        List<String> mainGroupNumbers = mainGroup.getMembers().stream()
+                .map(AccessionNumber::getNumber)
                 .collect(Collectors.toList());
-        assertThat(mainGroupNumbers).containsExactlyInAnyOrder(20010, 20011, 20012);
+        assertThat(mainGroupNumbers).containsExactlyInAnyOrder("0020010", "0020011", "0020012");
     }
 
     @Test
