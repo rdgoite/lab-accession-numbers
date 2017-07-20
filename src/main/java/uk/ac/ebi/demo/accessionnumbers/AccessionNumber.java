@@ -24,7 +24,7 @@ public class AccessionNumber {
 
     //TODO add validation for code and number arguments?
     public AccessionNumber(String code, String number) {
-        this.code = code.toUpperCase();
+        this.code = code.trim().toUpperCase();
         this.number = number;
         groupCode = String.format("%s%d", code, number.length());
     }

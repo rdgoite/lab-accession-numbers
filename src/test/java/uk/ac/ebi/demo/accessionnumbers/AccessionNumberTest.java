@@ -22,6 +22,15 @@ public class AccessionNumberTest {
     }
 
     @Test
+    public void testTrimCode() {
+        //given:
+        AccessionNumber accessionNumber = new AccessionNumber(" SRR ", "8102");
+
+        //expect:
+        assertThat(accessionNumber.getCode()).isEqualTo("SRR");
+    }
+
+    @Test
     public void testParse() {
         //given:
         String validInput1 = "ERR000111";
