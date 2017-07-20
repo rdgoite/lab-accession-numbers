@@ -10,8 +10,8 @@ public class AccessionNumber {
     public static final Pattern CODE_PATTERN = Pattern.compile("^\\s*\\p{Alpha}+\\s*$");
     public static final Pattern NUMBER_PATTERN = Pattern.compile("\\p{Digit}+");
 
-    public static final Pattern PARSE_PATTERN = Pattern.compile("^(?<code>\\p{Alpha}+)" +
-            "(?<number>\\p{Digit}+)$");
+    public static final Pattern PARSE_PATTERN = Pattern.compile("^\\s*(?<code>\\p{Alpha}+)" +
+            "(?<number>\\p{Digit}+)\\s*$");
 
     private final String code;
     private final String number;

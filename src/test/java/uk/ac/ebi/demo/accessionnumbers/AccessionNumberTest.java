@@ -55,10 +55,12 @@ public class AccessionNumberTest {
         //given:
         String validInput1 = "ERR000111";
         String validInput2 = "A00001";
+        String validInputWithSpace = "   EFR1001001 ";
 
         //when:
         AccessionNumber accessionNumber1 = AccessionNumber.parse(validInput1);
         AccessionNumber accessionNumber2 = AccessionNumber.parse(validInput2);
+        AccessionNumber accessionNumber3 = AccessionNumber.parse(validInputWithSpace);
 
         //then:
         assertThat(accessionNumber1)
@@ -69,6 +71,11 @@ public class AccessionNumberTest {
         assertThat(accessionNumber2)
                 .extracting("code", "number")
                 .containsExactly("A", "00001");
+
+        //and:
+        assertThat(accessionNumber3)
+                .extracting("code", "number")
+                .containsExactly("EFR", "1001001");
     }
 
     @Test
