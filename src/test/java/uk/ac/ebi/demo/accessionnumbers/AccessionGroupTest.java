@@ -21,6 +21,7 @@ public class AccessionGroupTest {
 
         //then:
         assertThat(group.getCode()).isEqualTo(srr211001.getGroupCode());
+        assertThat(group.getAccessionCode()).isEqualTo("SRR");
     }
 
     @Test

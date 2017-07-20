@@ -2,6 +2,7 @@ package uk.ac.ebi.demo.accessionnumbers;
 
 import uk.ac.ebi.demo.accessionnumbers.exception.NonConsecutiveAccessionNumber;
 
+//TODO composition over inheritance?
 public class ConsecutiveAccessionGroup extends AccessionGroup {
 
     private int min = 0;
