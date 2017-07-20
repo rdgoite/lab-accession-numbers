@@ -9,6 +9,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AccessionNumberTest {
 
     @Test
+    public void testImposeUniformCasing() {
+        //given:
+        AccessionNumber allUpperCase = new AccessionNumber("ABC", "123");
+        AccessionNumber allLowerCase = new AccessionNumber("xyz", "90012");
+        AccessionNumber mixedCase = new AccessionNumber("sRrEDw", "2901");
+
+        //expect:
+        assertThat(allUpperCase.getCode()).isEqualTo("ABC");
+        assertThat(allLowerCase.getCode()).isEqualTo("XYZ");
+        assertThat(mixedCase.getCode()).isEqualTo("SRREDW");
+    }
+
+    @Test
     public void testParse() {
         //given:
         String validInput1 = "ERR000111";

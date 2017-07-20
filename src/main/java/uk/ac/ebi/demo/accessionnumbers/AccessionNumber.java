@@ -12,7 +12,6 @@ public class AccessionNumber {
 
     private final String groupCode;
 
-    //TODO add processing for character casing
     public static AccessionNumber parse(String input) {
         Pattern pattern = Pattern.compile("^(?<code>\\p{Alpha}+)(?<number>\\p{Digit}+)$");
         Matcher matcher = pattern.matcher(input);
@@ -25,7 +24,7 @@ public class AccessionNumber {
 
     //TODO add validation for code and number arguments?
     public AccessionNumber(String code, String number) {
-        this.code = code;
+        this.code = code.toUpperCase();
         this.number = number;
         groupCode = String.format("%s%d", code, number.length());
     }
