@@ -24,6 +24,11 @@ public class AccessionNumber {
 
     //TODO add validation for code and number arguments?
     public AccessionNumber(String code, String number) {
+        Pattern codePattern = Pattern.compile("\\p{Alpha}+");
+        Pattern numberPattern = Pattern.compile("\\p{Digit}+");
+        if (!codePattern.matcher(code).matches() || !numberPattern.matcher(number).matches()) {
+            throw new InvalidAcessionNumberPattern();
+        }
         this.code = code.trim().toUpperCase();
         this.number = number;
         groupCode = String.format("%s%d", code, number.length());

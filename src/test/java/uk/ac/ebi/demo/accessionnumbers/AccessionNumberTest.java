@@ -31,6 +31,26 @@ public class AccessionNumberTest {
     }
 
     @Test
+    public void testValidateConstructorArguments() {
+        //expect:
+        doTestValidateConstructorArguments("!_INVALID_CODE_!", "78900");
+        doTestValidateConstructorArguments("ABC", "not a valid number");
+    }
+
+    private void doTestValidateConstructorArguments(String code, String number) {
+        //when:
+        boolean exceptionThrown = false;
+        try {
+            new AccessionNumber(code, number);
+        } catch (InvalidAcessionNumberPattern exception) {
+            exceptionThrown = true;
+        }
+
+        //then:
+        assertThat(exceptionThrown).as("expecting to throw exception").isTrue();
+    }
+
+    @Test
     public void testParse() {
         //given:
         String validInput1 = "ERR000111";
