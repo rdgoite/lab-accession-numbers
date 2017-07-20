@@ -14,12 +14,8 @@ public class SorterTest {
     @Test
     public void testSort() {
         //given:
-        List<String> inputs = Arrays.asList("A0000", "ERR000111", "ERR000112", "ERR000113");
-        List<AccessionNumber> accesionNumbers = inputs.stream()
-                .map(input -> AccessionNumber.parse(input))
-                .collect(Collectors.toList());
-
-        //and:
+        List<AccessionNumber> accesionNumbers = process("A0000", "ERR000111", "ERR000112",
+                "ERR000113");
         Sorter sorter = new Sorter();
 
         //when:
@@ -40,6 +36,12 @@ public class SorterTest {
                 .extracting("code", "number")
                 .containsExactly(tuple("ERR", "000111"), tuple("ERR", "000112"),
                         tuple("ERR", "000113"));
+    }
+
+    private List<AccessionNumber> process(String... inputs) {
+        return Arrays.stream(inputs)
+                .map(input -> AccessionNumber.parse(input))
+                .collect(Collectors.toList());
     }
 
 }
