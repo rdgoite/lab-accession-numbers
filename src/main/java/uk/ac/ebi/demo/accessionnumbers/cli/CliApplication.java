@@ -1,6 +1,7 @@
 package uk.ac.ebi.demo.accessionnumbers.cli;
 
 import uk.ac.ebi.demo.accessionnumbers.AccessionNumber;
+import uk.ac.ebi.demo.accessionnumbers.ConsecutiveAccessionGroup;
 import uk.ac.ebi.demo.accessionnumbers.Sorter;
 
 import java.util.List;
@@ -24,7 +25,11 @@ public class CliApplication {
                     .collect(Collectors.toList());
 
             Sorter sorter = new Sorter();
-            sorter.sort(accessionNumbers);
+            //TODO check if list is empty
+            List<String> results = sorter.sort(accessionNumbers).stream()
+                    .map(ConsecutiveAccessionGroup::toString)
+                    .collect(Collectors.toList());
+            System.out.println(String.join(", ", results));
         } catch (Exception e) {
             String errorMessage = "An error occurred while processing the input: %s";
             errorMessage = String.format(errorMessage, e.getMessage());
