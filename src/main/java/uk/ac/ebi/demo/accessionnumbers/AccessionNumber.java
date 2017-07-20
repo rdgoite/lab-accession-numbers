@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class AccessionNumber {
 
     public static final Pattern CODE_PATTERN = Pattern.compile("^\\s*\\p{Alpha}+\\s*$");
-    public static final Pattern NUMBER_PATTERN = Pattern.compile("\\p{Digit}+");
+    public static final Pattern NUMBER_PATTERN = Pattern.compile("^\\s*\\p{Digit}+\\s*$");
 
     public static final Pattern PARSE_PATTERN = Pattern.compile("^\\s*(?<code>\\p{Alpha}+)" +
             "(?<number>\\p{Digit}+)\\s*$");
@@ -33,7 +33,7 @@ public class AccessionNumber {
             throw new InvalidAcessionNumberPattern();
         }
         this.code = code.trim().toUpperCase();
-        this.number = number;
+        this.number = number.trim();
         groupCode = String.format("%s%d", code, number.length());
     }
 

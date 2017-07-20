@@ -22,12 +22,14 @@ public class AccessionNumberTest {
     }
 
     @Test
-    public void testTrimCode() {
+    public void testTrimConstructorArguments() {
         //given:
-        AccessionNumber accessionNumber = new AccessionNumber(" SRR ", "8102");
+        AccessionNumber codeWithWhitespace = new AccessionNumber(" SRR ", "8102");
+        AccessionNumber numberWithWhitespace = new AccessionNumber("ERR", " 100201  ");
 
         //expect:
-        assertThat(accessionNumber.getCode()).isEqualTo("SRR");
+        assertThat(codeWithWhitespace.getCode()).isEqualTo("SRR");
+        assertThat(numberWithWhitespace.getNumber()).isEqualTo("100201");
     }
 
     @Test
