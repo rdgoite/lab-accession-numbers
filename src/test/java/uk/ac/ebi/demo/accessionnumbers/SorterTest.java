@@ -119,6 +119,32 @@ public class SorterTest {
                 .containsExactly(tuple("DDR", "0001"));
     }
 
+    @Test
+    public void testSortCorrectOrderDifferentInputs() {
+        //given:
+        List<AccessionNumber> accessionNumbers = process("ERR000111", "ERR000112", "ERR000113",
+                "DRR2110012");
+
+        //when:
+        List<ConsecutiveAccessionGroup> result = sorter.sort(accessionNumbers);
+
+        //then:
+        assertThat(result).hasSize(2);
+
+        //and:
+        ConsecutiveAccessionGroup firstElement = result.get(0);
+        assertThat(firstElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("DRR", "2110012"));
+
+        //and:
+        ConsecutiveAccessionGroup secondElement = result.get(1);
+        assertThat(secondElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("ERR", "000111"), tuple("ERR", "000112"),
+                        tuple("ERR", "000113"));
+    }
+
     private List<AccessionNumber> process(String... inputs) {
         return Arrays.stream(inputs)
                 .map(input -> AccessionNumber.parse(input))

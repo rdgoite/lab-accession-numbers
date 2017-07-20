@@ -28,7 +28,7 @@ public class AccessionGroup {
     }
 
     public String getAccessionCode() {
-        return "";
+        return accessionCode;
     }
 
     public AccessionGroup add(AccessionNumber accessionNumber) {
