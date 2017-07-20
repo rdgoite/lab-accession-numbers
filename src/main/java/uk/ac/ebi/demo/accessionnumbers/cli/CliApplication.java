@@ -11,19 +11,9 @@ public class CliApplication {
 
     private void run() {
         String fileName = System.getProperty("input.file");
-        if (fileName == null || fileName.isEmpty()) {
-            System.out.println("This application expects 'input.file' property.");
-            System.exit(1);
-        }
-
+        checkIfProvided(fileName);
         try {
-            InputFileProcessor fileProcessor = new InputFileProcessor();
-            List<String> inputs = fileProcessor.process(fileName);
-
-            List<AccessionNumber> accessionNumbers = inputs.stream()
-                    .map(AccessionNumber::parse)
-                    .collect(Collectors.toList());
-
+            List<AccessionNumber> accessionNumbers = processInput(fileName);
             if (!accessionNumbers.isEmpty()) {
                 Sorter sorter = new Sorter();
                 List<String> results = sorter.sort(accessionNumbers).stream()
@@ -39,6 +29,21 @@ public class CliApplication {
             System.out.println(errorMessage);
             System.exit(1);
         }
+    }
+
+    private void checkIfProvided(String fileName) {
+        if (fileName == null || fileName.isEmpty()) {
+            System.out.println("This application expects 'input.file' property.");
+            System.exit(1);
+        }
+    }
+
+    private List<AccessionNumber> processInput(String fileName) {
+        InputFileProcessor fileProcessor = new InputFileProcessor();
+        List<String> inputs = fileProcessor.process(fileName);
+        return inputs.stream()
+                .map(AccessionNumber::parse)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
