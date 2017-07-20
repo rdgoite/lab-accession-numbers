@@ -11,7 +11,8 @@ public class AccessionGroup {
 
     protected final SortedMap<Integer, AccessionNumber> accessionNumbers;
 
-    protected String code;
+    protected String code = "";
+    protected String accessionCode = "";
 
     public AccessionGroup() {
         accessionNumbers = new TreeMap<>();
@@ -22,6 +23,14 @@ public class AccessionGroup {
         doAdd(initialMember);
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getAccessionCode() {
+        return accessionCode;
+    }
+
     public AccessionGroup add(AccessionNumber accessionNumber) {
         doAdd(accessionNumber);
         return this;
@@ -30,15 +39,14 @@ public class AccessionGroup {
     protected void doAdd(AccessionNumber accessionNumber) {
         String candidateGroupCode = accessionNumber.getGroupCode();
         if (accessionNumbers.isEmpty() || code.equals(candidateGroupCode)) {
-            if (code == null) code = candidateGroupCode;
+            if (code.isEmpty()) {
+                code = candidateGroupCode;
+                accessionCode = accessionNumber.getCode();
+            }
             accessionNumbers.put(accessionNumber.getNumberAsInteger(), accessionNumber);
         } else {
             throw new InvalidAccessionGroupMember(code, accessionNumber);
         }
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public int size() {

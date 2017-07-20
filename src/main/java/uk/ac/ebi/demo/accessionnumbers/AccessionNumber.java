@@ -7,15 +7,20 @@ import java.util.regex.Pattern;
 
 public class AccessionNumber {
 
+    public static final Pattern CODE_PATTERN = Pattern.compile("^\\s*\\p{Alpha}+\\s*$");
+    public static final Pattern NUMBER_PATTERN = Pattern.compile("^\\s*\\p{Digit}+\\s*$");
+
+    public static final Pattern PARSE_PATTERN = Pattern.compile("^\\s*(?<code>\\p{Alpha}+)" +
+            "(?<number>\\p{Digit}+)\\s*$");
+
     private final String code;
     private final String number;
 
     private final String groupCode;
 
-    //TODO add processing for character casing
+
     public static AccessionNumber parse(String input) {
-        Pattern pattern = Pattern.compile("^(?<code>\\p{Alpha}+)(?<number>\\p{Digit}+)$");
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = PARSE_PATTERN.matcher(input);
         if (matcher.matches()) {
             return new AccessionNumber(matcher.group("code"), matcher.group("number"));
         } else {
@@ -23,10 +28,12 @@ public class AccessionNumber {
         }
     }
 
-    //TODO add validation for code and number arguments?
     public AccessionNumber(String code, String number) {
-        this.code = code;
-        this.number = number;
+        if (!CODE_PATTERN.matcher(code).matches() || !NUMBER_PATTERN.matcher(number).matches()) {
+            throw new InvalidAcessionNumberPattern();
+        }
+        this.code = code.trim().toUpperCase();
+        this.number = number.trim();
         groupCode = String.format("%s%d", code, number.length());
     }
 
@@ -44,6 +51,11 @@ public class AccessionNumber {
 
     public int getNumberAsInteger() {
         return Integer.parseInt(number);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s%s", code, number);
     }
 
 }

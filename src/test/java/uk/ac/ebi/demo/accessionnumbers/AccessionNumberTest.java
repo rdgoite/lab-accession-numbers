@@ -9,14 +9,60 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AccessionNumberTest {
 
     @Test
+    public void testImposeUniformCasing() {
+        //given:
+        AccessionNumber allUpperCase = new AccessionNumber("ABC", "123");
+        AccessionNumber allLowerCase = new AccessionNumber("xyz", "90012");
+        AccessionNumber mixedCase = new AccessionNumber("sRrEDw", "2901");
+
+        //expect:
+        assertThat(allUpperCase.getCode()).isEqualTo("ABC");
+        assertThat(allLowerCase.getCode()).isEqualTo("XYZ");
+        assertThat(mixedCase.getCode()).isEqualTo("SRREDW");
+    }
+
+    @Test
+    public void testTrimConstructorArguments() {
+        //given:
+        AccessionNumber codeWithWhitespace = new AccessionNumber(" SRR ", "8102");
+        AccessionNumber numberWithWhitespace = new AccessionNumber("ERR", " 100201  ");
+
+        //expect:
+        assertThat(codeWithWhitespace.getCode()).isEqualTo("SRR");
+        assertThat(numberWithWhitespace.getNumber()).isEqualTo("100201");
+    }
+
+    @Test
+    public void testValidateConstructorArguments() {
+        //expect:
+        doTestValidateConstructorArguments("!_INVALID_CODE_!", "78900");
+        doTestValidateConstructorArguments("ABC", "not a valid number");
+    }
+
+    private void doTestValidateConstructorArguments(String code, String number) {
+        //when:
+        boolean exceptionThrown = false;
+        try {
+            new AccessionNumber(code, number);
+        } catch (InvalidAcessionNumberPattern exception) {
+            exceptionThrown = true;
+        }
+
+        //then:
+        assertThat(exceptionThrown).as("expecting to throw exception").isTrue();
+    }
+
+    @Test
     public void testParse() {
         //given:
         String validInput1 = "ERR000111";
         String validInput2 = "A00001";
+        String validInputWithSpace = "   EFR1001001 ";
 
         //when:
         AccessionNumber accessionNumber1 = AccessionNumber.parse(validInput1);
         AccessionNumber accessionNumber2 = AccessionNumber.parse(validInput2);
+        AccessionNumber accessionNumber3 = AccessionNumber.parse(validInputWithSpace);
 
         //then:
         assertThat(accessionNumber1)
@@ -27,6 +73,11 @@ public class AccessionNumberTest {
         assertThat(accessionNumber2)
                 .extracting("code", "number")
                 .containsExactly("A", "00001");
+
+        //and:
+        assertThat(accessionNumber3)
+                .extracting("code", "number")
+                .containsExactly("EFR", "1001001");
     }
 
     @Test
@@ -74,6 +125,19 @@ public class AccessionNumberTest {
         assertThat(ddr20100.getNumberAsInteger()).isEqualTo(20100);
         assertThat(ab000901.getNumberAsInteger()).isEqualTo(901);
         assertThat(xyz0000.getNumberAsInteger()).isEqualTo(0);
+    }
+
+    @Test
+    public void testToString() {
+        //given:
+        AccessionNumber abc123 = new AccessionNumber("ABC", "123");
+        AccessionNumber xyz000145 = new AccessionNumber("XYZ", "000145");
+        AccessionNumber a0000 = new AccessionNumber("A", "0000");
+
+        //expect:
+        assertThat(abc123.toString()).isEqualTo("ABC123");
+        assertThat(xyz000145.toString()).isEqualTo("XYZ000145");
+        assertThat(a0000.toString()).isEqualTo("A0000");
     }
 
 }
