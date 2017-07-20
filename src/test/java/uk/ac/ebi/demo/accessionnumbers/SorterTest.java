@@ -11,12 +11,13 @@ import static org.assertj.core.api.Assertions.tuple;
 
 public class SorterTest {
 
+    private Sorter sorter = new Sorter();
+
     @Test
     public void testSort() {
         //given:
         List<AccessionNumber> accesionNumbers = process("A0000", "ERR000111", "ERR000112",
                 "ERR000113");
-        Sorter sorter = new Sorter();
 
         //when:
         List<ConsecutiveAccessionGroup> result = sorter.sort(accesionNumbers);
@@ -25,17 +26,49 @@ public class SorterTest {
         assertThat(result).hasSize(2);
 
         //and:
-        ConsecutiveAccessionGroup firstEntry = result.get(0);
-        assertThat(firstEntry.getMembers())
+        ConsecutiveAccessionGroup firstElement = result.get(0);
+        assertThat(firstElement.getMembers())
                 .extracting("code", "number")
                 .containsExactly(tuple("A", "0000"));
 
         //and:
-        ConsecutiveAccessionGroup lastElement = result.get(1);
-        assertThat(lastElement.getMembers())
+        ConsecutiveAccessionGroup secondElement = result.get(1);
+        assertThat(secondElement.getMembers())
                 .extracting("code", "number")
                 .containsExactly(tuple("ERR", "000111"), tuple("ERR", "000112"),
                         tuple("ERR", "000113"));
+    }
+
+    @Test
+    public void testSortCorrectOrderForSimilarInputs() {
+        //given:
+        List<AccessionNumber> accessionNumbers = process("SRR002007", "SRR002005", "SRR002011",
+                "SRR002001", "SRR002006", "SRR002002");
+
+        //when:
+        List<ConsecutiveAccessionGroup> result = sorter.sort(accessionNumbers);
+
+        //then:
+        assertThat(result).hasSize(3);
+
+        //and:
+        ConsecutiveAccessionGroup firstElement = result.get(0);
+        assertThat(firstElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("SRR", "002001"), tuple("SRR", "002002"));
+
+        //and:
+        ConsecutiveAccessionGroup secondElement = result.get(1);
+        assertThat(secondElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("SRR", "002005"), tuple("SRR", "002006"),
+                        tuple("SRR", "002007"));
+
+        //and:
+        ConsecutiveAccessionGroup thirdElement = result.get(2);
+        assertThat(thirdElement.getMembers())
+                .extracting("code", "number")
+                .containsExactly(tuple("SRR", "002011"));
     }
 
     private List<AccessionNumber> process(String... inputs) {
