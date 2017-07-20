@@ -127,4 +127,17 @@ public class AccessionNumberTest {
         assertThat(xyz0000.getNumberAsInteger()).isEqualTo(0);
     }
 
+    @Test
+    public void testToString() {
+        //given:
+        AccessionNumber abc123 = new AccessionNumber("ABC", "123");
+        AccessionNumber xyz000145 = new AccessionNumber("XYZ", "000145");
+        AccessionNumber a0000 = new AccessionNumber("A", "0000");
+
+        //expect:
+        assertThat(abc123.toString()).isEqualTo("ABC123");
+        assertThat(xyz000145.toString()).isEqualTo("XYZ000145");
+        assertThat(a0000.toString()).isEqualTo("A0000");
+    }
+
 }

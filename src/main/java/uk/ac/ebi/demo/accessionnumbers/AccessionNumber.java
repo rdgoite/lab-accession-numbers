@@ -53,4 +53,9 @@ public class AccessionNumber {
         return Integer.parseInt(number);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s%s", code, number);
+    }
+
 }
