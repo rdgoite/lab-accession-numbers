@@ -1,7 +1,10 @@
 package uk.ac.ebi.demo.accessionnumbers;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
+@Component
 public class Sorter {
 
     public List<ConsecutiveAccessionGroup> sort(List<AccessionNumber> accesionNumbers) {

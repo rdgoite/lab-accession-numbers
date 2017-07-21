@@ -2,9 +2,6 @@ package uk.ac.ebi.demo.accessionnumbers;
 
 import uk.ac.ebi.demo.accessionnumbers.exception.NonConsecutiveAccessionNumber;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //TODO composition over inheritance?
 public class ConsecutiveAccessionGroup extends AccessionGroup {
 
